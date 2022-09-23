@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Drugs List</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+<!--<link rel="stylesheet" href="./static/css/showDrugsv.css">-->
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/showDrugsv.css') }}">-->
+    <style>
+
+body {
+   background: #151515;
+   background-image: url("/static/images/drug_image2.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+body * {
+  box-sizing: border-box;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+text-align:center;
+}
+table,th,td{
+border:2px solid #000;
+border-collapse:collapse;
+}
+
+th,td{
+color:#F7F9F9;
+padding:20px
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+  <div class="table-users">
+   <div color="#633974" style="text-align:center; text-transform: uppercase;" ><h2><caption><b>MEDICINE LIST FOUND FOR CONDITION {{list_of_drugs_model[0]['condition']}}</b></caption></h2></div>
+
+   <table cellspacing="10">
+         <th width="200px">Drug Name</th>
+         <th>Drug Label</th>
+         <th>Drug Type</th>
+         <th width="500px">How to Use The Drug</th>
+         <th width="500px">Side Effect Of The Drug</th>
+         <th>Drug Overall Rating</th>
+        <th width="230">Drug Image</th>
+      </th>
+         {% for drug in list_of_drugs_model %}
+      <tr>
+
+          <td>{{drug['drug_name']}}</td>
+         <td>{{drug['drug_label']}}</td>
+         <td>{{drug['drug_type']}}</td>
+         <td>{{drug['how_to_use']}}</td>
+         <td>{{drug['side_effect']}} </td>
+         <td>{{drug['rating']}} </td>
+        <td><img src="{{drug['image_url']}}" alt="{{drug['image_alt']}}"></td>
+
+      </tr>
+       {% endfor %}
+   </table>
+</div>
+
+
+
+</body>
+
+</html>

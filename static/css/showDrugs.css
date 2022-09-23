@@ -1,0 +1,29 @@
+body {
+  background-color: #91ced4;
+}
+body * {
+  box-sizing: border-box;
+}
+
+table {
+  width: 90%;
+}
+
+th {
+text-align:center;
+}
+table,th,td{
+border:2px solid #000;
+border-collapse:collapse;
+}
+
+
+
+
+
+
+
+
+
+
+

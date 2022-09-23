@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Search Page</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<section class="webdesigntuts-workshop" style="background-image: url('/static/images/home_drug.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;">
+
+    <h1 style="text-align: center;color:#F8F9F9;"> !! WELCOME TO DRUG WORLD !! FIND MEDICINE BY CONDITION</h1><BR>
+    <h1 style="text-align: center;color:#F8F9F9;"> FIND MEDICINE BY CONDITION</h1><BR>
+    <h3 style="text-align: center;color:#F8F9F9;">SEARCH THE DRUG NAME BY YOUR CONDITION</h3>
+    <table style="margin: 0px auto;">
+        <tr>
+            <td>
+            <form action="/search_for_drug" method="POST">
+                <input type="text" name="drug_name" id="drug_name">
+                <input type="submit" value="Search">
+             </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3 style="color:#F8F9F9;">{{list_of_drugs|length}} MATCH/MATCHES IS/ARE FOUND FOR YOUR CONDITION </h3>
+            <form class="f1" action="/find_drug" method="POST">
+                {% if list_of_drugs|length > 0 %}
+
+                {% for drug_name in list_of_drugs %}
+                <table style="margin: 0px auto;">
+                    <tr>
+                        <td>
+                            <div>
+                        <button style="width:100%;" type="submit" value={{drug_name['url']}} name="drg_name">{{drug_name['name']}}</button>
+                        </div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                {%elif search_happend=='yes' and list_of_drugs|length==0%}
+                    <tr>
+                        <td>
+                             <h3 style="color:red;">!NOT ABLE TO FIND THE CONDITION YOUR LOOKING FOR :( ! TRY SEARCHING AGAIN WITHOUT MAKING ANY TYPO MISTAKE  </h3>
+                        </td>
+                    </tr>
+                {% endif %}
+                </table>
+            </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+</section>
+
+{% endblock %}
