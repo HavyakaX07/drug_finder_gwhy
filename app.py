@@ -17,7 +17,7 @@ if ENV == 'dev':
     app1.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 else:
     app1.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://wwndwruahmkwok:aa556b764e6c61f4b49a1514edad4ee0ef85979c253eef046f2cf498736c0d24@ec2-34-231-42-166.compute-1.amazonaws.com:5432/daklj6ji73i0ds'
-
+    app1.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 #Home page url mapping
 @app1.route("/",methods=['GET'])
