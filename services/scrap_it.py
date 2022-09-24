@@ -135,8 +135,8 @@ def find_drug_basic_info(search_url):
     html_disease_response.close()
     drug_list = beauty_disease_response.find_all("div", {"class": "table-content"})
     # Only taking top 25 if more than 25 drugs because of some limitations
-    if (len(drug_list) > 25):
-        drug_list = drug_list[0:25]
+    if (len(drug_list) > 5):
+        drug_list = drug_list[0:5]
     for drug in drug_list:
         drug_dict = {}
         drug_name = drug.span.text

@@ -1,6 +1,6 @@
 #Author Prasanna Hegde.
-# from webdriver_manager.chrome import ChromeDriverManager
-import time
+#from webdriver_manager.chrome import ChromeDriverManager
+#import time
 from bs4 import BeautifulSoup as bs
 
 from selenium import webdriver
@@ -16,7 +16,7 @@ chrome_options.add_argument("--no-sandbox")
 def fetch_drug_image(drug_info:str,drug_dict):
     if drug_info != "None":
         try:
-            # driver = webdriver.Chrome(ChromeDriverManager().install())
+            #driver = webdriver.Chrome(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=Service(executable_path=os.environ.get("CHROMEDRIVER_PATH")), options=chrome_options)
             driver.get(drug_info)
             #stabalise
