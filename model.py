@@ -1,8 +1,8 @@
 #Author Prasanna Hegde.
-from app import app
+from app import app1
 from flask_sqlalchemy import SQLAlchemy
 
-db=SQLAlchemy(app)
+db=SQLAlchemy(app1)
 
 class Drug_TB(db.Model):
     __tablename__="drug_tb"
