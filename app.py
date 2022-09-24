@@ -7,25 +7,25 @@ from flask_cors import cross_origin
 
 
 
-app1=Flask(__name__)
+app=Flask(__name__)
 ENV = 'prod'
 
 from services import service_scrap as app_scrap
 
 if ENV == 'dev':
-    app1.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Prasanna@localhost:5432/Drug_Demo1"
-    app1.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Prasanna@localhost:5432/Drug_Demo1"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 else:
-    app1.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tqvbnkhljhoanv:0fe24a668ffc3741a5f21990cfd6d7c823d78dfee52d3e76de041cce677a2657@ec2-18-214-35-70.compute-1.amazonaws.com:5432/d68dtj97quva3m'
-    app1.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tqvbnkhljhoanv:0fe24a668ffc3741a5f21990cfd6d7c823d78dfee52d3e76de041cce677a2657@ec2-18-214-35-70.compute-1.amazonaws.com:5432/d68dtj97quva3m'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 #Home page url mapping
-@app1.route("/",methods=['GET'])
+@app.route("/",methods=['GET'])
 @cross_origin()
 def home():
     return render_template("index.html",search_happend="no")
 
-@app1.route("/search_for_drug",methods=["POST"])
+@app.route("/search_for_drug",methods=["POST"])
 @cross_origin()
 def search_found():
     if request.method=="POST":
@@ -35,7 +35,7 @@ def search_found():
 
 
 
-@app1.route("/find_drug",methods=['POST'])
+@app.route("/find_drug",methods=['POST'])
 @cross_origin()
 def find_drug():
     if request.method=="POST":
@@ -49,7 +49,7 @@ def find_drug():
 
 if __name__ == "__main__":
     #app.run(host='127.0.0.1', port=8001, debug=True)
-	app1.run()
+	app.run()
 
 
 
