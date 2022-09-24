@@ -20,7 +20,7 @@ def fetch_drug_image(drug_info:str,drug_dict):
             driver = webdriver.Chrome(service=Service(executable_path=os.environ.get("CHROMEDRIVER_PATH")), options=chrome_options)
             driver.get(drug_info)
             #stabalise
-            time.sleep(3)
+            #time.sleep(3)
             driver.execute_script("window.scrollTo(0, 1000);")
             html = driver.page_source
             soup = bs(html, "html.parser")
