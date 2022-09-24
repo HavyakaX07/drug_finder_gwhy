@@ -149,7 +149,7 @@ def find_drug_basic_info(search_url):
         drug_info = drug.span.a['href']
         drug_info = siteurl + drug_info
         tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
-        # print(tem_drug_dict)
+        print(tem_drug_dict)
         all_drug_list.append(tem_drug_dict)
     return all_drug_list
 
