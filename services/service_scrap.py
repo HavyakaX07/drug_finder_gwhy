@@ -23,7 +23,9 @@ def initial_search_scrap(drug_name: str):
 
 
 def fetch_drug_list(drug_url: str):
-    if isAvailableInDB(condition_for_db):
+    status=isAvailableInDB(condition_for_db)
+    print("is available ",status)
+    if status:
         return fetchDrugsfromDb(condition_for_db)
     else:
         temp_list = drug_url.split("/")
@@ -33,11 +35,12 @@ def fetch_drug_list(drug_url: str):
         #drug_dict = {}
         #drug_dict['condition'] = condition_for_db
         final_return_list=scrap_it.scrap_from_web(drug_url)
+        print(final_return_list)
         #saveto db
         for dict in final_return_list:
             dict['condition'] = condition_for_db
-        status=insetDrugstoDb(final_return_list)
-        if status:
+        status1=insetDrugstoDb(final_return_list)
+        if status1:
             return final_return_list
         else:
             return []

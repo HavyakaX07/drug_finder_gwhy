@@ -11,6 +11,7 @@ def insetDrugstoDb(drugs_list:list):
         db.session.commit()
         return True
     except Exception as e:
+        print(e)
         return False
 def fetchDrugsfromDb(condition:str):
     try:
@@ -20,7 +21,8 @@ def fetchDrugsfromDb(condition:str):
             temp_dict=asDict(obj)
             final_drug_list.append(temp_dict)
         return final_drug_list
-    except:
+    except Exception as e:
+        print(e)
         return None
 
 def isAvailableInDB(condition:str):
@@ -34,7 +36,8 @@ def isAvailableInDB(condition:str):
             return False
         else:
             return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 
