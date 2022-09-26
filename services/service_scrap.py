@@ -34,6 +34,7 @@ def fetch_drug_list(drug_url: str):
         drug_url = "/" + "/".join(temp_list)
         #drug_dict = {}
         #drug_dict['condition'] = condition_for_db
+        print(drug_url)
         final_return_list=scrap_it.scrap_from_web(drug_url)
         print(final_return_list)
         #saveto db
