@@ -30,10 +30,10 @@ def fetch_drug_list(drug_url: str):
     else:
         temp_list = drug_url.split("/")
         del temp_list[0]
-        temp_list[-1] = final_condition_name
+        temp_list[-1] = condition_for_db
         drug_url = "/" + "/".join(temp_list)
-        #drug_dict = {}
-        #drug_dict['condition'] = condition_for_db
+        drug_dict = {}
+        drug_dict['condition'] = condition_for_db
         print(drug_url)
         final_return_list=scrap_it.scrap_from_web(drug_url)
         print(final_return_list)
