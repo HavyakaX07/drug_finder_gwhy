@@ -134,25 +134,49 @@ def find_drug_basic_info(search_url):
     beauty_disease_response = bs(html_disease_response.text, "html.parser")
     html_disease_response.close()
     drug_list = beauty_disease_response.find_all("div", {"class": "table-content"})
-    # Only taking top 25 if more than 25 drugs because of some limitations
-    if (len(drug_list) > 5):
-        drug_list = drug_list[0:5]
-    for drug in drug_list:
-        drug_dict = {}
-        drug_name = drug.span.text
-        # fetch_drug_details
-        drug_label = drug.find_all("span", {"class": "label-info"})[0].text
-        drug_type = drug.find_all("span", {"class": "drug-type"})[0].text
-        drug_dict['drug_name'] = drug_name
-        drug_dict['drug_label'] = drug_label
-        drug_dict['drug_type'] = drug_type
-        drug_info = drug.span.a['href']
-        drug_info = siteurl + drug_info
-        tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
-        print(tem_drug_dict)
-        all_drug_list.append(tem_drug_dict)
-    return all_drug_list
-
+    if(len(drug_list)!=0):
+        # Only taking top 25 if more than 25 drugs because of some limitations
+        if (len(drug_list) > 5):
+            drug_list = drug_list[0:5]
+        for drug in drug_list:
+            drug_dict = {}
+            drug_name = drug.span.text
+            # fetch_drug_details
+            drug_label = drug.find_all("span", {"class": "label-info"})[0].text
+            drug_type = drug.find_all("span", {"class": "drug-type"})[0].text
+            drug_dict['drug_name'] = drug_name
+            drug_dict['drug_label'] = drug_label
+            drug_dict['drug_type'] = drug_type
+            drug_info = drug.span.a['href']
+            drug_info = siteurl + drug_info
+            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            print(tem_drug_dict)
+            all_drug_list.append(tem_drug_dict)
+        return all_drug_list
+    else:
+        t_body = beauty_disease_response.find_all("tbody", {"class": ""})
+        t_row = t_body[0].find_all("tr", {"class": ""})
+        if(len(t_row)>25):
+            t_row=t_row[0:5]
+        for each_row in t_row:
+            drug_dict = {}
+            t_data = each_row.find_all("td", {"class": ""})
+            drug_name = t_data[0].text
+            drug_info = t_data[0].a['href']
+            #print(drug_name)
+            drug_dict['drug_name'] = drug_name
+            #print(drug_info)
+            drug_label = t_data[1].text
+            #print(drug_label)
+            drug_dict['drug_label'] = drug_label
+            drug_type = t_data[2].text
+            #print(drug_type)
+            drug_dict['drug_type'] = drug_type
+            drug_info = siteurl + drug_info
+            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            #print(tem_drug_dict)
+            all_drug_list.append(tem_drug_dict)
+        return all_drug_list
 
 def scrap_from_web(drug_url: str):
     search_url = siteurl + drug_url
