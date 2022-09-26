@@ -10,8 +10,6 @@ condition_for_db=""
 
 
 def initial_search_scrap(drug_name: str):
-    global condition_for_db
-    condition_for_db=drug_name
     drug_name_list=drug_name.split(" ")
     if(drug_name_list[-1]==""):
         del drug_name_list[-1]
@@ -23,6 +21,8 @@ def initial_search_scrap(drug_name: str):
 
 
 def fetch_drug_list(drug_url: str):
+    dummy_list=drug_url.split("/")
+    condition_for_db=dummy_list[-1]
     status=isAvailableInDB(condition_for_db)
     print("is available ",status)
     if status:
@@ -39,8 +39,8 @@ def fetch_drug_list(drug_url: str):
         #saveto db
         for dict in final_return_list:
             dict['condition'] = condition_for_db
-        status1=insetDrugstoDb(final_return_list)
-        if status1:
+        insert_status=insetDrugstoDb(final_return_list)
+        if insert_status:
             return final_return_list
         else:
             return []
