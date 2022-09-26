@@ -156,7 +156,7 @@ def find_drug_basic_info(search_url):
     else:
         t_body = beauty_disease_response.find_all("tbody", {"class": ""})
         t_row = t_body[0].find_all("tr", {"class": ""})
-        if(len(t_row)>25):
+        if(len(t_row)>5):
             t_row=t_row[0:5]
         for each_row in t_row:
             drug_dict = {}
