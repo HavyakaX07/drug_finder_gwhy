@@ -37,12 +37,15 @@ def fetch_drug_list(drug_url: str):
         print(drug_url)
         final_return_list=scrap_it.scrap_from_web(drug_url)
         print(final_return_list)
-        #saveto db
-        for dict in final_return_list:
-            dict['condition'] = condition_for_db
-        insert_status=insetDrugstoDb(final_return_list)
-        if insert_status:
-            return final_return_list
+        if(len(final_return_list)!=0):
+            # saveto db
+            for dict in final_return_list:
+                dict['condition'] = condition_for_db
+            insert_status = insetDrugstoDb(final_return_list)
+            if insert_status:
+                return final_return_list
+            else:
+                return []
         else:
             return []
 
