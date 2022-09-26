@@ -134,6 +134,7 @@ def find_drug_basic_info(search_url):
     beauty_disease_response = bs(html_disease_response.text, "html.parser")
     html_disease_response.close()
     drug_list = beauty_disease_response.find_all("div", {"class": "table-content"})
+    print(drug_list)
     if(len(drug_list)!=0):
         # Only taking top 25 if more than 25 drugs because of some limitations
         if (len(drug_list) > 5):
@@ -156,6 +157,7 @@ def find_drug_basic_info(search_url):
     else:
         t_body = beauty_disease_response.find_all("tbody", {"class": ""})
         t_row = t_body[0].find_all("tr", {"class": ""})
+        print(t_row)
         if(len(t_row)>5):
             t_row=t_row[0:5]
         for each_row in t_row:
