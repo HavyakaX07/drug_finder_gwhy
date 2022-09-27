@@ -1,5 +1,6 @@
 # Author Prasanna Hegde
 # Actual scrapping of the web happens here.
+import concurrent
 import time
 
 import requests as rq
@@ -13,7 +14,6 @@ siteurl = "https://www.webmd.com"
 base_url = "https://www.webmd.com/drugs/2/search?type=conditions&query="
 agent = {
     "User-Agent": 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'}
-all_drug_list = []
 
 
 def initial_search(search_url: str):
@@ -77,11 +77,13 @@ def find_drug_rating(rating_url, drug_info_url, drug_dict):
             # print("No rating")
             drug_dict['rating'] = "No rating"
             #return drug_dict
-        return img_scrap.fetch_drug_image(drug_info_url, drug_dict)
+        # return img_scrap.fetch_drug_image(drug_info_url, drug_dict)
+        return drug_dict
     else:
         drug_dict['rating'] = "No rating"
         #return drug_dict
-        return img_scrap.fetch_drug_image("None",drug_dict)
+        # return img_scrap.fetch_drug_image("None",drug_dict)
+        return drug_dict
 
 
 def fetch_drug_detailed_info(drug_info_url, drug_dict):
@@ -119,22 +121,25 @@ def fetch_drug_detailed_info(drug_info_url, drug_dict):
             drug_dict['side_effect'] = side_effect_string
         rating_url = siteurl + \
                      drug_info_html.find_all("ul", {"class": "auto-tabs"})[0].find_all("li", {"class": ""})[0].a['href']
+        # return drug_dict
         return find_drug_rating(rating_url, drug_info_url, drug_dict)
 
     else:
         # print("No drug info")
         drug_dict['how_to_use'] = "No Description About How To Use This Drug"
         drug_dict['side_effect'] = "No Details About Side Effect Of This Drug"
-
+        # return drug_dict
         return find_drug_rating("None", "None", drug_dict)
 
 
 def find_drug_basic_info(search_url):
+    all_drug_list = []
+    all_drug_details_url = []
     html_disease_response = rq.get(search_url, headers=agent)
     beauty_disease_response = bs(html_disease_response.text, "html.parser")
     html_disease_response.close()
     drug_list = beauty_disease_response.find_all("div", {"class": "table-content"})
-    print(drug_list)
+    # print(drug_list)
     if(len(drug_list)!=0):
         # Only taking top 25 if more than 25 drugs because of some limitations
         if (len(drug_list) > 5):
@@ -150,14 +155,15 @@ def find_drug_basic_info(search_url):
             drug_dict['drug_type'] = drug_type
             drug_info = drug.span.a['href']
             drug_info = siteurl + drug_info
-            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
-            print(tem_drug_dict)
-            all_drug_list.append(tem_drug_dict)
-        return all_drug_list
+            all_drug_details_url.append(drug_info)
+            # tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            # print(tem_drug_dict)
+            all_drug_list.append(drug_dict)
+        return fetch_image_thread(all_drug_details_url,all_drug_list)
     else:
         t_body = beauty_disease_response.find_all("tbody", {"class": ""})
         t_row = t_body[0].find_all("tr", {"class": ""})
-        print(t_row)
+        # print(t_row)
         if(len(t_row)>5):
             t_row=t_row[0:5]
         for each_row in t_row:
@@ -175,10 +181,31 @@ def find_drug_basic_info(search_url):
             #print(drug_type)
             drug_dict['drug_type'] = drug_type
             drug_info = siteurl + drug_info
-            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            all_drug_details_url.append(drug_info)
+            # tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
             #print(tem_drug_dict)
-            all_drug_list.append(tem_drug_dict)
-        return all_drug_list
+            all_drug_list.append(drug_dict)
+        return fetch_image_thread(all_drug_details_url,all_drug_list)
+
+
+def fetch_image_thread(drug_url_list,drug_dict_list):
+    final_list=[]
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results_how_to_use_rating= executor.map(fetch_drug_detailed_info, drug_url_list, drug_dict_list)
+        results_image = executor.map(img_scrap.fetch_drug_image, drug_url_list, drug_dict_list)
+        list_results_how_to_use_rating=list(results_how_to_use_rating)
+        list_results_image=list(results_image)
+        # length=len(list(results_how_to_use_rating))
+        # print(list_results_how_to_use_rating)
+        # print(list_results_image)
+        # for result in range(length):
+        #     list_results_how_to_use_rating[result].update(list_results_image[result])
+        #     final_list.append(list_results_how_to_use_rating[result])
+        # print(final_list)
+    return list_results_image
+
+
+
 
 def scrap_from_web(drug_url: str):
     search_url = siteurl + drug_url
