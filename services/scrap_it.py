@@ -203,6 +203,8 @@ def fetch_image_thread(drug_url_list,drug_dict_list):
         #     list_results_how_to_use_rating[result].update(list_results_image[result])
         #     final_list.append(list_results_how_to_use_rating[result])
         # print(final_list)
+    driver.close()
+    driver.quit()
     return list_results_image
 
 
@@ -212,8 +214,6 @@ def scrap_from_web(drug_url: str):
     search_url = siteurl + drug_url
     temp_list = find_drug_basic_info(search_url)
     #print(temp_list)
-    driver.close()
-    driver.quit()
     return temp_list
 
 
