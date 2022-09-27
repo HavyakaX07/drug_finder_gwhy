@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup as bs
 # from webdriver_manager.chrome import ChromeDriverManager
 
 from services import image_scrapit as img_scrap
+from services.image_scrapit import driver
 
 siteurl = "https://www.webmd.com"
 base_url = "https://www.webmd.com/drugs/2/search?type=conditions&query="
@@ -211,6 +212,8 @@ def scrap_from_web(drug_url: str):
     search_url = siteurl + drug_url
     temp_list = find_drug_basic_info(search_url)
     #print(temp_list)
+    driver.close()
+    driver.quit()
     return temp_list
 
 
