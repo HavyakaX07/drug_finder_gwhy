@@ -22,12 +22,13 @@ def fetch_drug_image(drug_info:str,drug_dict):
             driver.get(drug_info)
             #stabalise
             #time.sleep(3)
-            print("Inside image",driver.title)
+            if driver.title == "WebMD Drugs & Medications - Medical information on prescription drugs, vitamins and over-the-counter medicines":
+                drug_dict['image_url'] = None
+                drug_dict['image_alt'] = "No Image Found"
+                return drug_dict
             driver.execute_script("window.scrollTo(0, 1000);")
             html = driver.page_source
             soup = bs(html, "html.parser")
-            driver.close()
-            driver.quit()
             if (soup.find("div", {"class": "imprint-image"})):
                 image_url = soup.find_all("div", {"class": "imprint-image"})[0].img['src']
                 image_alt = soup.find_all("div", {"class": "imprint-image"})[0].img['alt']
