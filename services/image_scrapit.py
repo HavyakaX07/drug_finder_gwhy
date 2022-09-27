@@ -22,7 +22,7 @@ def fetch_drug_image(drug_info:str,drug_dict):
             driver.get(drug_info)
             #stabalise
             #time.sleep(3)
-            print(driver.title)
+            print("Inside image",driver.title)
             driver.execute_script("window.scrollTo(0, 1000);")
             html = driver.page_source
             soup = bs(html, "html.parser")
