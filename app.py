@@ -2,15 +2,18 @@
 #This is python file will handle the all api calls from the front end
 
 #importing all neccessary packages
-from flask import Flask,request,render_template
+from flask import Flask,request,render_template,session
 from flask_cors import cross_origin
-
+list_of_drugs=[]
 
 
 app=Flask(__name__)
-ENV = 'prod'
+ENV = 'dev'
+
 
 from services import service_scrap as app_scrap
+
+
 
 if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Prasanna@localhost:5432/Drug_Demo1"
@@ -31,7 +34,9 @@ def search_found():
     if request.method=="POST":
         search_drug_name=request.form['drug_name'].lower()
         list_of_found_drugs=app_scrap.initial_search_scrap(search_drug_name)
-        return render_template("index.html",list_of_drugs=list_of_found_drugs,search_happend="yes")
+        session['list_of_drugs']=list_of_found_drugs
+        if 'list_of_drugs' in session:
+            return render_template("index.html", list_of_drugs=list_of_found_drugs, search_happend="yes")
 
 
 
@@ -41,15 +46,30 @@ def find_drug():
     if request.method=="POST":
         try:
             search_drug_url=request.form['drg_name']
-            list_of_drugs=app_scrap.fetch_drug_list(search_drug_url)
-            return render_template("show_drugs.html",list_of_drugs_model=list_of_drugs)
+            global list_of_drugs
+            list_of_drugs = app_scrap.fetch_drug_list(search_drug_url)
+            return render_template("show_drugs.html", list_of_drugs_model=list_of_drugs,drug_image={})
         except Exception as e:
             print(e)
             return render_template("error.html")
+@app.route("/view_image",methods=["POST"])
+@cross_origin()
+def fetch_image():
+    if request.method=="POST":
+        try:
+            drug_url=request.form['drug_url']
+            image_dict=app_scrap.fetch_drug_image_service(drug_url)
+            return render_template('show_drug_image.html',drug_image=image_dict)
+        except Exception as e:
+            print(e)
+            return render_template('show_drug_image.html',drug_image=[])
+
+
 
 if __name__ == "__main__":
-    #app.run(host='127.0.0.1', port=8001, debug=True)
-	app.run()
+    app.secret_key="ahdhfahl"
+    app.run(host='127.0.0.1', port=8001, debug=True)
+    # app.run()
 
 
 

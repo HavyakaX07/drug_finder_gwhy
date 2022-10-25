@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Drug Image</title>
+    <style>
+        body {
+   background: #151515;
+   background-image: url("/static/images/drug_image.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+    </style>
+</head>
+<body>
+<table cellspacing="10">
+        <th width="230"><h1 style="text-align: center;color:#F8F9F9;">DRUG IMAGES</h1></th>
+    {% if drug_image|length > 0 %}
+         {% for drug in drug_image %}
+      <tr>
+        <td>
+            <img id="image" src="{{drug[0]}}"
+            alt="drug[1]" />
+        </td>
+      </tr>
+       {% endfor %}
+    {% else %}
+    <th width="230"><h1 style="text-align: center;color:#F8F9F9;">NO DRUG IMAGES FOUND</h1></th>
+    {% endif %}
+   </table>
+</body>
+</html>

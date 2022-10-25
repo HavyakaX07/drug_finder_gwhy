@@ -9,7 +9,9 @@ from bs4 import BeautifulSoup as bs
 # from webdriver_manager.chrome import ChromeDriverManager
 
 from services import image_scrapit as img_scrap
-from services.image_scrapit import driver
+from services.image_scrapit import create_driver
+
+#from services.image_scrapit import driver
 
 siteurl = "https://www.webmd.com"
 base_url = "https://www.webmd.com/drugs/2/search?type=conditions&query="
@@ -66,6 +68,7 @@ def initial_search(search_url: str):
 
 def find_drug_rating(rating_url, drug_info_url, drug_dict):
     if rating_url != "None" and drug_info_url != "None":
+        drug_dict['drug_url']=drug_info_url
         drug_rating_res = rq.get(rating_url, headers=agent)
         # print(drug_rating_res)
         drug_rating_html = bs(drug_rating_res.text, "html.parser")
@@ -78,12 +81,13 @@ def find_drug_rating(rating_url, drug_info_url, drug_dict):
             # print("No rating")
             drug_dict['rating'] = "No rating"
             #return drug_dict
-        # return img_scrap.fetch_drug_image(drug_info_url, drug_dict)
+        # return img_scrap.fetch_drug_image(drug_info_url, drug_dict,driver)
         return drug_dict
     else:
         drug_dict['rating'] = "No rating"
+        drug_dict['drug_url']="None"
         #return drug_dict
-        # return img_scrap.fetch_drug_image("None",drug_dict)
+        # return img_scrap.fetch_drug_image("None",drug_dict,driver)
         return drug_dict
 
 
@@ -157,10 +161,11 @@ def find_drug_basic_info(search_url):
             drug_info = drug.span.a['href']
             drug_info = siteurl + drug_info
             all_drug_details_url.append(drug_info)
-            # tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
-            # print(tem_drug_dict)
-            all_drug_list.append(drug_dict)
-        return fetch_image_thread(all_drug_details_url,all_drug_list)
+            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            print(tem_drug_dict)
+            all_drug_list.append(tem_drug_dict)
+        # return fetch_image_thread(all_drug_details_url,all_drug_list)
+        return all_drug_list
     else:
         t_body = beauty_disease_response.find_all("tbody", {"class": ""})
         t_row = t_body[0].find_all("tr", {"class": ""})
@@ -183,29 +188,26 @@ def find_drug_basic_info(search_url):
             drug_dict['drug_type'] = drug_type
             drug_info = siteurl + drug_info
             all_drug_details_url.append(drug_info)
-            # tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
-            #print(tem_drug_dict)
-            all_drug_list.append(drug_dict)
-        return fetch_image_thread(all_drug_details_url,all_drug_list)
+            tem_drug_dict = fetch_drug_detailed_info(drug_info, drug_dict)
+            print(tem_drug_dict)
+            all_drug_list.append(tem_drug_dict)
+        # return fetch_image_thread(all_drug_details_url,all_drug_list)
+        return all_drug_list
 
 
-def fetch_image_thread(drug_url_list,drug_dict_list):
-    final_list=[]
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        results_how_to_use_rating= executor.map(fetch_drug_detailed_info, drug_url_list, drug_dict_list)
-        results_image = executor.map(img_scrap.fetch_drug_image, drug_url_list, drug_dict_list)
-        list_results_how_to_use_rating=list(results_how_to_use_rating)
-        list_results_image=list(results_image)
-        # length=len(list(results_how_to_use_rating))
-        # print(list_results_how_to_use_rating)
-        # print(list_results_image)
-        # for result in range(length):
-        #     list_results_how_to_use_rating[result].update(list_results_image[result])
-        #     final_list.append(list_results_how_to_use_rating[result])
-        # print(final_list)
-    driver.close()
-    driver.quit()
-    return list_results_image
+# def fetch_image_thread(drug_url_list,drug_dict_list):
+#
+#     final_list=[]
+#     driver_list=[create_driver() for i in range(len(drug_dict_list))]
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#          results_temp= executor.map(fetch_drug_detailed_info, drug_url_list, drug_dict_list,driver_list)
+#          list_results_temp = list(results_temp)
+#          print(list_results_temp)
+#          return list_results_temp
+
+
+
+#     return list_results_image
 
 
 
