@@ -8,7 +8,7 @@ list_of_drugs=[]
 
 
 app=Flask(__name__)
-ENV = 'dev'
+ENV = 'Prod'
 
 
 from services import service_scrap as app_scrap
@@ -68,8 +68,8 @@ def fetch_image():
 
 if __name__ == "__main__":
     app.secret_key="ahdhfahl"
-    app.run(host='127.0.0.1', port=8001, debug=True)
-    # app.run()
+    # app.run(host='127.0.0.1', port=8001)
+    app.run()
 
 
 
