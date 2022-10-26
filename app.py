@@ -8,6 +8,7 @@ list_of_drugs=[]
 
 
 app=Flask(__name__)
+app.secret_key="ahdhfahl"
 ENV = 'Prod'
 
 
