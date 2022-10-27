@@ -31,7 +31,6 @@ def fetch_drug_image(drug_info:str):
             driver.execute_script("window.scrollTo(0, 1000);")
             html = driver.page_source
             driver.close()
-            driver.quit()
             soup = bs(html, "html.parser")
             if (soup.find("div", {"class": "imprint-image"})):
                 image_urls=[]
