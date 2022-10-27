@@ -47,6 +47,7 @@ def isAvailableInDB(condition:str):
 def asDict(drug_tb):
     drug_dict={}
     drug_dict['condition']=drug_tb.condition
+    drug_dict['drug_url']=drug_tb.drug_url
     drug_dict['drug_name']=drug_tb.drug_name
     drug_dict['drug_label']=drug_tb.drug_label
     drug_dict['drug_type']=drug_tb.drug_type

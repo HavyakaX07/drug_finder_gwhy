@@ -7,7 +7,7 @@ db=SQLAlchemy(app)
 class Drug_TB(db.Model):
     __tablename__="drug_tb"
     drug_id=db.Column(db.Integer,primary_key=True)
-    condition=db.Column(db.String(50))
+    condition=db.Column(db.String(150))
     drug_url=db.Column(db.Text)
     drug_name=db.Column(db.Text)
     drug_label=db.Column(db.String(10))

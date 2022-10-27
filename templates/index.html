@@ -25,6 +25,22 @@
             </td>
         </tr>
         <tr>
+           <h3 style="text-align: center;color:#F8F9F9;">Frequently Encountered Diseases</h3>
+        </tr>
+
+
+            <form class="f1" action="/find_drug" method="POST" style="display:flex;justify-content:center;">
+                <div style="display: flex;justify-content: center;">
+                <button  type="submit" name="drg_name" value="/drugs/2/condition-2836/back-pain">Back Pain</button>
+                <button  type="submit" name="drg_name" value="/drugs/2/condition-3250/renal-colic">Renal Colic</button>
+                <button  type="submit" name="drg_name" value="/drugs/2/condition-157/HIV-infection">HIV Infection</button>
+                <button  type="submit" name="drg_name" value="/drugs/2/condition-1051/Alzheimers-disease">Alzheimers</button>
+                <button  type="submit" name="drg_name" value="/drugs/2/condition-15229/heavy-menstrual-bleeding-associated-with-uterine-leiomyoma">Menstrual Bleeding</button>
+                </div>
+            </form>
+
+
+        <tr>
             <td>
                 <div>
                     <h3 style="color:#F8F9F9;">{{list_of_drugs|length}} MATCH/MATCHES IS/ARE FOUND FOR YOUR CONDITION </h3>

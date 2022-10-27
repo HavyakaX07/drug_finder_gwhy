@@ -2,13 +2,12 @@
 #This is python file will handle the all api calls from the front end
 
 #importing all neccessary packages
-from flask import Flask,request,render_template,session
+from flask import Flask,request,render_template
 from flask_cors import cross_origin
 list_of_drugs=[]
 
 
 app=Flask(__name__)
-app.secret_key="ahdhfahl"
 ENV = 'Prod'
 
 
@@ -16,11 +15,11 @@ from services import service_scrap as app_scrap
 
 
 
-if ENV == 'dev':
+if ENV == 'Dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Prasanna@localhost:5432/Drug_Demo1"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tqvbnkhljhoanv:0fe24a668ffc3741a5f21990cfd6d7c823d78dfee52d3e76de041cce677a2657@ec2-18-214-35-70.compute-1.amazonaws.com:5432/d68dtj97quva3m'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://saxixlrmezrywg:526b990bdfa8e5ac90699d5aab7c113fee48432e0c7043f3f18150a0622392cb@ec2-44-195-132-31.compute-1.amazonaws.com:5432/d8vkqicp85i7rj'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 #Home page url mapping
@@ -33,11 +32,10 @@ def home():
 @cross_origin()
 def search_found():
     if request.method=="POST":
+        print("Requested method is post")
         search_drug_name=request.form['drug_name'].lower()
         list_of_found_drugs=app_scrap.initial_search_scrap(search_drug_name)
-        session['list_of_drugs']=list_of_found_drugs
-        if 'list_of_drugs' in session:
-            return render_template("index.html", list_of_drugs=list_of_found_drugs, search_happend="yes")
+        return render_template("index.html", list_of_drugs=list_of_found_drugs, search_happend="yes")
 
 
 
@@ -49,6 +47,7 @@ def find_drug():
             search_drug_url=request.form['drg_name']
             global list_of_drugs
             list_of_drugs = app_scrap.fetch_drug_list(search_drug_url)
+            print(f"LIst of Drugs {list_of_drugs}")
             return render_template("show_drugs.html", list_of_drugs_model=list_of_drugs,drug_image={})
         except Exception as e:
             print(e)

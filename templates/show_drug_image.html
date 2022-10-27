@@ -15,8 +15,9 @@
 </head>
 <body>
 <table cellspacing="10">
-        <th width="230"><h1 style="text-align: center;color:#F8F9F9;">DRUG IMAGES</h1></th>
+
     {% if drug_image|length > 0 %}
+    <th width="230"><h1 style="text-align: center;color:#F8F9F9;">DRUG IMAGES</h1></th>
          {% for drug in drug_image %}
       <tr>
         <td>

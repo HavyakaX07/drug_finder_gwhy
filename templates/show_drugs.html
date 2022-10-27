@@ -131,10 +131,6 @@ a {
          <td>{{drug['side_effect']}} </td>
          <td>{{drug['rating']}} </td>
         <td><form action="/view_image" method="post"><button  onclick="show()" id="btnID" class="primary-btn" name="drug_url" value="{{drug['drug_url']}}">View Drug</button></form>
-        {% if drug_image|length > 0 %}
-            <img id="image" src="{{drug_image['image_url']}}"
-            alt="drug_image['image_alt']" />
-            {% endif %}
         </td>
 
       </tr>
