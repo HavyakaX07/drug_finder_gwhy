@@ -19,7 +19,7 @@ if ENV == 'Dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Prasanna@localhost:5432/Drug_Demo1"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://saxixlrmezrywg:526b990bdfa8e5ac90699d5aab7c113fee48432e0c7043f3f18150a0622392cb@ec2-44-195-132-31.compute-1.amazonaws.com:5432/d8vkqicp85i7rj'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://saxixlrmezrywg:526b990bdfa8e5ac90699d5aab7c113fee48432e0c7043f3f18150a0622392cb@ec2-44-195-132-31.compute-1.amazonaws.com:5432/d8vkqicp85i7rj'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 #Home page url mapping
