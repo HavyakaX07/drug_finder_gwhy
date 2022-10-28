@@ -21,6 +21,7 @@ def fetch_drug_image(drug_info:str):
     if drug_info != "None":
         try:
             # driver = webdriver.Chrome(ChromeDriverManager().install())
+            print(f"Diver is {driver}")
             driver.get(drug_info)
             #stabalise
             #time.sleep(3)
@@ -32,8 +33,8 @@ def fetch_drug_image(drug_info:str):
             #     return drug_dict
             driver.execute_script("window.scrollTo(0, 1000);")
             html = driver.page_source
-            # driver.close()
-            # driver.quit()
+            driver.close()
+            #driver.quit()
             soup = bs(html, "html.parser")
             if (soup.find("div", {"class": "imprint-image"})):
                 image_urls=[]
